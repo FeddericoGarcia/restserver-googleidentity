@@ -1,12 +1,12 @@
 const { Router } = require('express');
-const {pathGet, pathPatch, pathPut, pathPost, pathDelete} = require('../controllers/path.controller');
+const {pathGet, pathPatch, pathPut, pathPost, pathDelete} = require('../controllers/path-controller');
 
 const router = Router();
 
 router.get('/', pathGet);
 router.patch('/', pathPatch);
-router.put('/', pathPut);
+router.put('/:id', pathPut);
 router.post('/', pathPost);
-router.delete('/', pathDelete);
+router.delete('/:id', pathDelete);
 
 module.exports = router;
