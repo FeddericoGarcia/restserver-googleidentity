@@ -2,8 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const {pathGet, pathPatch, pathPut, pathPost, pathDelete} = require('../controllers/path-controller');
-const { inputValidator } = require('../middlewares/input-validaror');
-const { verifyRole, verifyEmail, verifyID } = require('../helpers/db-validators');
+const { inputValidator } = require('../middlewares/input-validator');
+const { verifyRole, verifyEmail, verifyID } = require('../helpers/validators');
 
 const router = Router();
 
@@ -13,7 +13,12 @@ router.get('/', [
 
 router.patch('/', pathPatch);
 
-router.put('/:id', pathPut);
+router.put('/:id', [
+    check('id', 'It is not a valid ID').isMongoId(),
+    check('id').custom( verifyID ),
+    check('role').custom( verifyRole ),
+    inputValidator
+], pathPut);
 
 router.post('/',[
     check('name', 'The name is required').not().isEmpty(),
@@ -25,6 +30,7 @@ router.post('/',[
 
 //TODO: TERMINAR LA VALIDACION DEL ID A ELIMINAR
 router.delete('/:id',[
+    check('id', 'It is not a valid ID').isMongoId(),
     check('id').custom( verifyID ),
     inputValidator
 ], pathDelete);
