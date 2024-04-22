@@ -7,9 +7,7 @@ const { verifyRole, verifyEmail, verifyID } = require('../helpers/validators');
 
 const router = Router();
 
-router.get('/', [
-    
-], pathGet);
+router.get('/', pathGet);
 
 router.patch('/', pathPatch);
 
@@ -28,7 +26,6 @@ router.post('/',[
     inputValidator
 ] , pathPost);
 
-//TODO: TERMINAR LA VALIDACION DEL ID A ELIMINAR
 router.delete('/:id',[
     check('id', 'It is not a valid ID').isMongoId(),
     check('id').custom( verifyID ),

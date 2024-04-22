@@ -26,16 +26,16 @@ class Server {
 
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
-        
-        this.app.use(express.static('public'));
+        this.app.use(express.static( 'public' ));
     }
+    
     routes(){
         this.app.use(this.path, require('../routes/path'));
     }
 
     listen(){
         this.app.listen(this.port , () => {
-            console.log(`Server running on port ${this.port}`)
+            console.log( `Server running on port ${ this.port }` )
         })
     }
 

@@ -1,14 +1,22 @@
 const {response} = require('express');
-// const bcryptjs = require('bcryptjs');
 
 const User = require('../models/user');
 const encrypt = require('../helpers/encrypt');
 const user = require('../models/user');
 
-const pathGet = (req, res = response) => {
+const pathGet = async (req, res = response) => {
+
+    const { limit = 5, from = 0, state = true} = req.query;
+    const [ total_docs, users] = await Promise.all([
+        User.countDocuments({state}),
+        User.find({state})
+            .skip( Number(from) )
+            .limit( Number(limit) )
+    ]);
 
     res.json({
-        msg: 'GET OK - CONTROLLER'
+        total_docs,
+        users
     });
 }
 
@@ -17,18 +25,17 @@ const pathPost = async (req, res = response) => {
     const {name, password, email, role, state, google} = req.body;
     const user = new User({name, password, email, role, state, google});
 
-    // const newPass = encrypt(user.password);
     user.password = encrypt(user.password);
 
     await user.save(); 
 
     res.json({
-        msg: 'POST OK - CONTROLLER',
         user
     });
 }
 
 const pathPut = async (req, res = response) => {
+
     const { id } = req.params;
     const { password, google, ...resto } = req.body;
 
@@ -39,32 +46,25 @@ const pathPut = async (req, res = response) => {
     const user = await User.findByIdAndUpdate(id, resto);
     
     res.json({
-        msg: 'PUT OK - CONTROLLER',
         user
     });
 }
 
 const pathPatch = (req, res = response) => {
+    
     const body = req.body;
 
     res.json({
-        msg: 'PATCH OK - CONTROLLER',
         body
     });
 }
 
-const pathDelete = (req, res = response) => {
+const pathDelete = async (req, res = response) => {
     
     const {id} = req.params;
-
-    const user = User.findOne(id) ? user.remove() : '';
-    // if (user){
-    //     user.remove();
-    // }
+    const user = await User.findByIdAndUpdate(id, { state: false});
     
     res.json({
-        msg: 'DELETE OK - CONTROLLER',
-        id,
         user
     });
 }
