@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const {pathGet, pathPatch, pathPut, pathPost, pathDelete} = require('../controllers/path-controller');
+const { pathGet, pathPatch, pathPut, pathPost, pathDelete } = require('../controllers/path-controller');
 const { inputValidator } = require('../middlewares/input-validator');
 const { verifyRole, verifyEmail, verifyID } = require('../helpers/validators');
 
