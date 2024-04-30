@@ -4,6 +4,7 @@ const { check } = require('express-validator');
 const { pathGet, pathPatch, pathPut, pathPost, pathDelete } = require('../controllers/path-controller');
 const { inputValidator } = require('../middlewares/input-validator');
 const { verifyRole, verifyEmail, verifyID } = require('../helpers/validators');
+const { validateJWT } = require('../middlewares/validateJWT');
 
 const router = Router();
 
@@ -27,6 +28,7 @@ router.post('/',[
 ] , pathPost);
 
 router.delete('/:id',[
+    validateJWT,
     check('id', 'It is not a valid ID').isMongoId(),
     check('id').custom( verifyID ),
     inputValidator
