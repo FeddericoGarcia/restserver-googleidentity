@@ -1,9 +1,8 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { inputValidator } = require('../middlewares/input-validator');
-const { pathPost } = require('../controllers/authPath-controller');
-const { verifyEmail } = require('../helpers/validators');
+const { inputValidator } = require('../middlewares/inputValidator');
+const { pathPost } = require('../controllers/authController');
 
 const router = Router();
 

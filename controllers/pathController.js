@@ -1,10 +1,8 @@
-const {response} = require('express');
+const encrypt = require('../helpers/encrypt');
 
 const User = require('../models/user');
-const encrypt = require('../helpers/encrypt');
-const user = require('../models/user');
 
-const pathGet = async (req, res = response) => {
+const pathGet = async ( req, res ) => {
 
     const { limit = 5, from = 0, state = true} = req.query;
     const [ total_docs, users] = await Promise.all([
@@ -20,7 +18,7 @@ const pathGet = async (req, res = response) => {
     });
 }
 
-const pathPost = async (req, res = response) => {
+const pathPost = async ( req, res ) => {
 
     const {name, password, email, role, state, google} = req.body;
     const user = new User({name, password, email, role, state, google});
@@ -34,7 +32,7 @@ const pathPost = async (req, res = response) => {
     });
 }
 
-const pathPut = async (req, res = response) => {
+const pathPut = async ( req, res ) => {
 
     const { id } = req.params;
     const { password, google, ...resto } = req.body;
@@ -50,7 +48,7 @@ const pathPut = async (req, res = response) => {
     });
 }
 
-const pathPatch = (req, res = response) => {
+const pathPatch = ( req, res ) => {
     
     const body = req.body;
 
@@ -59,12 +57,13 @@ const pathPatch = (req, res = response) => {
     });
 }
 
-const pathDelete = async (req, res = response) => {
+const pathDelete = async ( req, res ) => {
     
-    const {id} = req.params;
+    const { id } = req.params;
     const user = await User.findByIdAndUpdate(id, { state: false});
     
     res.json({
+        msg: 'User has been deleted',
         user
     });
 }
