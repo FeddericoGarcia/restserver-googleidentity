@@ -26,11 +26,9 @@ const pathPost = async ( req, res ) => {
         }
 
         const token = await generateJWT( user.id );
-        
+
         res.json({
-            token,
-            email,
-            password
+            user
         });
 
     } catch (error) {

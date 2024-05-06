@@ -1,9 +1,12 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { inputValidator } = require('../middlewares/inputValidator');
-const { validateJWT } = require('../middlewares/validateJWT');
-const { roleValid } = require('../middlewares/roleValidator');
+const {
+    inputValidator,
+    validateJWT,
+    // roleValid,
+    haveRole
+} = require('../middlewares');
 
 const { pathGet, pathPatch, pathPut, pathPost, pathDelete } = require('../controllers/pathController');
 const { verifyRole, verifyEmail, verifyID } = require('../helpers/validators');
@@ -31,7 +34,8 @@ router.post('/',[
 
 router.delete('/:id',[
     validateJWT,
-    roleValid,
+    // roleValid,
+    haveRole('ADMIN', 'MOD'),
     check('id', 'It is not a valid ID').isMongoId(),
     check('id').custom( verifyID ),
     inputValidator
