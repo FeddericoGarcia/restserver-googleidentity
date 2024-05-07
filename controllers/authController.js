@@ -41,6 +41,17 @@ const pathPost = async ( req, res ) => {
     }
 }
 
+const googleSignIn = ( req, res ) => {
+
+    const { id_token } = req.body;
+
+    res.json({
+        msg: 'POST-CONTROLLER GOOGLE-SIGN-IN OK',
+        id_token
+    });
+}
+
 module.exports = {
-    pathPost
+    pathPost,
+    googleSignIn
 }
